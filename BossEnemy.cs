@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -9,13 +9,14 @@ public class BossEnemy : MonoBehaviour
     Animator animator;
 
     [SerializeField] GameObject target;
-    [SerializeField] GameObject exp;
-    float AttackCooltime = 1;//攻撃後の隙
+    [SerializeField] GameObject exp;//大技時呼び出されるオブジェクト
+    float AttackCooltimetime = 1;//攻撃後の隙
     float LightAttack=1;//弱攻撃の隙
     float HeavyAttack = 3;//強攻撃の隙
 
 
-    float jump = 5;
+    float JumpAttackCooltime = 5;//大技の現在のクールタイム
+    float JumpAttack = 60;//大技の設定されるクールタイム
     int hp = 100;
 
     float distance;
@@ -45,7 +46,6 @@ public class BossEnemy : MonoBehaviour
     void move()
     {
         distance = (transform.position - target.transform.position).sqrMagnitude;//プレイヤーとの距離計算
-        //Debug.Log(distance);
         if (hp > 0)
         {
             //プレイヤーとの距離が5以下かつクールタイムが終わっていたら攻撃へ移行
@@ -90,14 +90,14 @@ public class BossEnemy : MonoBehaviour
 
             }
             //大技(予定)
-            if (jump >= 0)
+            if (JumpAttackCooltime >= 0)
             {
-                jump -= Time.deltaTime;
+                JumpAttackCooltime -= Time.deltaTime;
             }
             else//発動
             {
-                jump = 60;
-                GameObject g = Instantiate(exp, target.transform.position, target.transform.rotation);
+                JumpAttackCooltime = JumpAttack;
+                GameObject g = Instantiate(exp, target.transform.position, target.transform.rotation);//現在のプレイヤーの位置に爆発オブジェクトを設置
                 animator.SetTrigger("Attack4");
             }
         }
@@ -109,7 +109,7 @@ public class BossEnemy : MonoBehaviour
         }
 
     }
-
+//↓攻撃青エネミーから引っこ抜いたから残ってる部分、使う？↓
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
