@@ -10,7 +10,7 @@ public class BossEnemy : MonoBehaviour
 
     [SerializeField] GameObject target;
     [SerializeField] GameObject exp;//大技時呼び出されるオブジェクト
-    float AttackCooltimetime = 1;//攻撃後の隙
+    float AttackCooltime = 1;//攻撃後の隙
     float LightAttack=1;//弱攻撃の隙
     float HeavyAttack = 3;//強攻撃の隙
 
